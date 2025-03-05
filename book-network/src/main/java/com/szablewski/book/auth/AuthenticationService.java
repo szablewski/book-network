@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+class AuthenticationService {
 
     private static final int LENGTH_CODE = 6;
 
@@ -107,7 +107,6 @@ public class AuthenticationService {
                 .build();
     }
 
-    //    @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Token not found"));
 
