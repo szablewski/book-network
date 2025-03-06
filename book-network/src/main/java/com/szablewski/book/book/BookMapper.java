@@ -1,5 +1,6 @@
 package com.szablewski.book.book;
 
+import com.szablewski.book.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,19 @@ class BookMapper {
                 .owner(book.getOwner().fullName())
                 // todo implements this later
 //                .cover()
+                .build();
+    }
+
+    BorrowedBookResponse toBorrowedBooksResponse(BookTransactionHistory history) {
+
+        return BorrowedBookResponse.builder()
+                .id(history.getBook().getId())
+                .title(history.getBook().getTitle())
+                .authorName(history.getBook().getAuthorName())
+                .isbn(history.getBook().getIsbn())
+                .rate(history.getBook().getRate())
+                .returned(history.isReturned())
+                .returnedApproved(history.isReturnApproved())
                 .build();
     }
 }
