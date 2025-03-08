@@ -2,6 +2,7 @@ package com.szablewski.book.book;
 
 import com.szablewski.book.common.PageResponse;
 import com.szablewski.book.exception.OperationNotPermittedException;
+import com.szablewski.book.file.FileService;
 import com.szablewski.book.history.BookTransactionHistory;
 import com.szablewski.book.history.BookTransactionHistoryRepository;
 import com.szablewski.book.user.User;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +31,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookTransactionHistoryRepository transactionHistoryRepository;
     private final BookMapper bookMapper;
+    private final FileService fileService;
 
     Integer save(BookRequest request, Authentication connectUser) {
         User user = (User) connectUser.getPrincipal();
@@ -222,5 +225,13 @@ public class BookService {
         bookTransactionHistory.setReturnApproved(true);
         transactionHistoryRepository.save(bookTransactionHistory);
         return bookId;
+    }
+
+    void uploadBookCoverPicture(MultipartFile file, Authentication connectedUser, Integer bookId) {
+        Book book = findBookById(bookId);
+        User user = (User) connectedUser.getPrincipal();
+        var bookCover = fileService.saveFile(file, user.getId());
+        book.setBookCover(bookCover);
+        bookRepository.save(book);
     }
 }
