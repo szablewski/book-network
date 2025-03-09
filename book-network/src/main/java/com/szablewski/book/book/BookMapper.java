@@ -1,5 +1,6 @@
 package com.szablewski.book.book;
 
+import com.szablewski.book.file.FileUtils;
 import com.szablewski.book.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,7 @@ class BookMapper {
                 .shareable(book.isArchived())
                 .archived(book.isArchived())
                 .owner(book.getOwner().fullName())
-                // todo implements this later
-//                .cover()
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
