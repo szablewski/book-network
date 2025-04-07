@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 version = "1.0",
                 license = @License(
                         name = "Licence name",
-                        url = "Licence url"
+                        url = "https://some-url.com"
                 )
         ),
         servers = {
@@ -48,5 +48,5 @@ import io.swagger.v3.oas.annotations.servers.Server;
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER
 )
-class OpenApiConfig {
+public class OpenApiConfig {
 }
