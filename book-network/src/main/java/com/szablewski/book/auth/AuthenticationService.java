@@ -10,6 +10,7 @@ import com.szablewski.book.user.User;
 import com.szablewski.book.user.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class AuthenticationService {
 
     private static final int LENGTH_CODE = 6;
@@ -122,6 +124,8 @@ class AuthenticationService {
         userRepository.save(user);
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
+
+        log.info("Activated account for userId: {}", savedToken.getUser().getId());
     }
 
 }
